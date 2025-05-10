@@ -2,8 +2,5 @@
 
 use App\Http\Controllers\API\KendaraanController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('index');
-});
+Route::get('/pajak/kendaraan', [KendaraanController::class, 'getDataKendaraan']);
