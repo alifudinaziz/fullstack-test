@@ -21,3 +21,4 @@
 - Masih terdapat kurang filter data kendaraan berdasarkan status pembayaran
 - Masih belum membuat endpoint API untuk rekap data **/api/pajak/kendaraan/rekap**
 - Filter dropdown dan informasi rekap masih belum berjalan
+- Belum setup dan deploy ke Docker
