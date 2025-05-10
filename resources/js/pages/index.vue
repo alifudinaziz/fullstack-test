@@ -4,35 +4,37 @@
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
         <div class="wrapper-total-pajak bg-white p-2 md:p-4 rounded-md shadow-md">
           <p class="font-bold text-lg mb-4">Total Pajak Terbayar</p>
-          <p class="font-bold text-2xl md:text-3xl">Rp.411.098.654</p>
+          <p class="font-bold text-2xl md:text-3xl">Rp.{{ rekapTerbayar }}</p>
         </div>
         <div class="wrapper-total-pajak bg-white p-2 md:p-4 rounded-md shadow-md">
           <p class="font-bold text-lg mb-4">Total Pajak Tunggakan</p>
-          <p class="font-bold text-2xl md:text-3xl">Rp.411.098.654</p>
+          <p class="font-bold text-2xl md:text-3xl">Rp.{{ rekapTunggakan }}</p>
         </div>
       </div>
       <div v-show="!showDetail" class="wrapper-daftar-pajak bg-white p-2 md:p-4 rounded-md shadow-md">
         <p class="font-bold">Daftar Pajak Kendaraan</p>
         <hr class="border-gray-300 mb-4">
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <div class="wrapper-filter">
-            <p class="font-bold mb-1">Jenis Kendaraan</p>
-            <select
-              class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
-              <option>Semua</option>
-              <option>Mobil</option>
-              <option>Motor</option>
-            </select>
-          </div>
-          <div class="wrapper-filter">
-            <p class="font-bold mb-1">Status Pajak</p>
-            <select
-              class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
-              <option>Semua</option>
-              <option>Terbayar</option>
-              <option>Belum Bayar</option>
-            </select>
-          </div>
+          <form>
+            <div class="wrapper-filter">
+              <p class="font-bold mb-1">Jenis Kendaraan</p>
+              <select
+                class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
+                <option value="all">Semua</option>
+                <option value="mobil">Mobil</option>
+                <option value="motor">Motor</option>
+              </select>
+            </div>
+            <div class="wrapper-filter">
+              <p class="font-bold mb-1">Status Pajak</p>
+              <select
+                class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
+                <option value="all">Semua</option>
+                <option value="terbayar">Terbayar</option>
+                <option value="belum_bayar">Belum Bayar</option>
+              </select>
+            </div>
+          </form>
         </div>
         <table class="w-full mb-4">
           <tr class="bg-gray-200">
@@ -130,6 +132,8 @@ const listKendaraan = ref([]);
 const listKendaraanLength = ref(0);
 const showDetail = ref(false);
 const itemToShow = 10;
+const rekapTerbayar = ref(0)
+const rekapTunggakan = ref(0)
 const dataDetail = reactive({
   alamat: '',
   jenisKendaraan: '',
