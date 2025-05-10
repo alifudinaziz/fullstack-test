@@ -14,8 +14,8 @@
       <div v-show="!showDetail" class="wrapper-daftar-pajak bg-white p-2 md:p-4 rounded-md shadow-md">
         <p class="font-bold">Daftar Pajak Kendaraan</p>
         <hr class="border-gray-300 mb-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <form>
+        <div>
+          <form class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
             <div class="wrapper-filter">
               <p class="font-bold mb-1">Jenis Kendaraan</p>
               <select

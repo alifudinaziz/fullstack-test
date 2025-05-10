@@ -14,6 +14,7 @@
 - run **[npm install]**
 - run the backend project **[php artisan serve]**
 - run the frontend project **[npm run dev]**
+- copy the local server URL and paste it in browser
 
 ## Kekurangan
 
