@@ -18,18 +18,18 @@
           <form class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8">
             <div class="wrapper-filter">
               <p class="font-bold mb-1">Jenis Kendaraan</p>
-              <select
+              <select v-model="filterJenisKendaraan" @change="selectJenisKendaraan"
                 class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
-                <option value="all">Semua</option>
+                <option value="">Semua</option>
                 <option value="mobil">Mobil</option>
                 <option value="motor">Motor</option>
               </select>
             </div>
             <div class="wrapper-filter">
               <p class="font-bold mb-1">Status Pajak</p>
-              <select
+              <select v-model="filterStatusPajak" @change="selectStatusPajak"
                 class="bg-gray-200 border border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
-                <option value="all">Semua</option>
+                <option value="">Semua</option>
                 <option value="terbayar">Terbayar</option>
                 <option value="belum_bayar">Belum Bayar</option>
               </select>
@@ -125,7 +125,6 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
-import axios from 'axios'
 
 const isLoading = ref(true)
 const listKendaraan = ref([]);
@@ -143,6 +142,8 @@ const dataDetail = reactive({
   tanggalPajak: '',
   tanggalBayar: null,
 })
+const filterJenisKendaraan = ref('')
+const filterStatusPajak = ref('')
 
 const showDetailSection = (paramData) => {
   showDetail.value = !showDetail.value
@@ -174,9 +175,46 @@ const fetchData = async () => {
   listKendaraan.value = listKendaraan.value.data;
   listKendaraan.value = listKendaraan.value.slice(0, itemToShow);
 }
+const fetchRekap = async () => {
+  const response = await fetch('/api/pajak/kendaraan/rekap');
+  let dataRekap = await response.json();
+
+  rekapTerbayar.value = numberThousand(dataRekap.statusPajakTerbayar);
+  rekapTunggakan.value = numberThousand(dataRekap.statusPajakBelumBayar);
+}
+const selectJenisKendaraan = async () => {
+  filterStatusPajak.value = ''
+
+  if (filterJenisKendaraan.value !== '') {
+    const response = await fetch(`/api/pajak/kendaraan?jenis_kendaraan=${filterJenisKendaraan.value}`);
+    listKendaraan.value = await response.json();
+    listKendaraanLength.value = listKendaraan.value.data.length;
+    listKendaraan.value = listKendaraan.value.data;
+    listKendaraan.value = listKendaraan.value.slice(0, itemToShow);
+  } else {
+    fetchData();
+  }
+}
+const selectStatusPajak = async () => {
+  filterJenisKendaraan.value = ''
+
+  if (filterStatusPajak.value !== '') {
+    const responseStatusBayar = await fetch(`/api/pajak/kendaraan?status_pembayaran=${filterStatusPajak.value}`);
+    listKendaraan.value = await responseStatusBayar.json();
+    listKendaraanLength.value = listKendaraan.value.data.length;
+    listKendaraan.value = listKendaraan.value.data;
+    listKendaraan.value = listKendaraan.value.slice(0, itemToShow);
+  } else {
+    fetchData();
+  }
+}
+const numberThousand = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 onMounted(() => {
   fetchData();
+  fetchRekap();
 });
 
 
